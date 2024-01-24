@@ -1,4 +1,4 @@
-import { UserEntity as User } from "../../User/domain/UserEntity";
+import { UserCredentialEntity as User } from "../../UserCredential/domain/UserCredentialEntity";
 import { OAuthClient as Client } from "./OAuthClientEntity";
 
 export interface OAuthToken {

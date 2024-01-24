@@ -1,31 +1,50 @@
 import { UserEntity } from "./UserEntity";
+import { v4 as uuidv4 } from 'uuid';
 
 export class UserValue implements UserEntity{
-    id: string;
-    name: string;
-    surname: string;
-    email: string;
-    birthdate: Date;
-    cellphone: string;
-    gender: string;
+  id: string;
+  name?: string;
+  surname?: string;
+  email?: string;
+  phoneNumber?: string;
+  sex?: string;
+  employment?:string;
+  description?: string;
+  province?:string;
+  city?:string;
+  postalCode?: string;
+  address?: string;
   
-    constructor({ id ,name, surname, email, birthdate, cellphone, gender }: {
-                id:string, 
-                name: string, 
-                surname: string, 
-                email: string, 
-                birthdate: Date, 
-                cellphone: string, 
-                gender: string
+    constructor({ name, surname, 
+                  email, phoneNumber, sex, 
+                  employment, description, 
+                  province, city, postalCode, address }: {
+                    
+      name: string;
+      surname: string;
+      email: string;
+      phoneNumber: string;
+      sex: string;
+      employment:string;
+      description: string;
+      province:string;
+      city:string;
+      postalCode: string;
+      address: string;
               }
                 ) {
-        this.id = id;
+        this.id = uuidv4();
         this.name = name;
         this.surname = surname;
         this.email = email;
-        this.birthdate = birthdate;
-        this.cellphone = cellphone;
-        this.gender = gender;
+        this.phoneNumber = phoneNumber;
+        this.sex = sex;
+        this.employment = employment;
+        this.description = description;
+        this.province = province;
+        this.city = city;
+        this.postalCode = postalCode;
+        this.address = address;
     }
   
   }

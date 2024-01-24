@@ -1,7 +1,9 @@
 import { type UserCredentialEntity } from './UserCredentialEntity'
 import bcrypt from 'bcrypt'
+import { v4 as uuidv4 } from 'uuid';
 
 export class UserCredentialValue implements UserCredentialEntity {
+  id: string;
   username: string
   password: string
   role?: string
@@ -9,13 +11,14 @@ export class UserCredentialValue implements UserCredentialEntity {
   createdAt?: Date
   updatedAt?: Date
 
-  constructor ({ username, password, role, permissions }: {
+  constructor ({  username, password, role, permissions }: {
     username: string
     password: string
     role?: string
     permissions?: string[]
   }
   ) {
+    this.id = uuidv4();
     this.username = username
     this.password = password
     this.role = role

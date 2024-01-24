@@ -1,9 +1,14 @@
 export interface UserEntity {
-    id?: string;
+    id: string;
     name?: string;
     surname?: string;
     email?: string;
-    birthdate?: Date;
-    cellphone?: string;
-    gender?: string;
+    phoneNumber?: string;
+    sex?: string;
+    employment?:string;
+    description?: string;
+    province?:string;
+    city?:string;
+    postalCode?: string;
+    address?: string;
 }

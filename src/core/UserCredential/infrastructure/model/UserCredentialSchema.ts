@@ -7,6 +7,7 @@ import bcrypt from 'bcrypt'
 const ENV_SALT = process.env.SALT ?? '10'
 
 export interface IUserCredential extends Document {
+  id: string;
   username: string
   password: string
   role?: string
@@ -18,7 +19,7 @@ export interface IUserCredential extends Document {
 }
 
 const UserCredentialSchema: Schema = new Schema({
-  _id: { type: String, default: uuidv4 },
+  id: { type: String, unique: true },
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   role: { type: String },
@@ -31,7 +32,7 @@ const UserCredentialSchema: Schema = new Schema({
   timestamps: true
 })
 
-UserCredentialSchema.virtual('id').get(function () {
+/* UserCredentialSchema.virtual('id').get(function () {
   return this._id
 })
 
@@ -41,7 +42,7 @@ UserCredentialSchema.set('toJSON', {
     delete ret._id
     delete ret.__v
   }
-})
+}) */
 
 UserCredentialSchema.set('toObject', { virtuals: true })
 
