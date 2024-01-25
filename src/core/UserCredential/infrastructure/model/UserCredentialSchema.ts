@@ -20,8 +20,14 @@ export interface IUserCredential extends Document {
 
 const UserCredentialSchema: Schema = new Schema({
   id: { type: String, unique: true },
-  username: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  username: { type: String, required: true, unique: true,  
+              match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.\w{2,3})+$/, 'Por favor ingrese un correo electrónico válido'] },
+  password: { type: String, required: true, validate: {
+    validator: function(v: string | any[]) {
+      return v.length >= 8; // Asegúrate de que el password tenga al menos 8 caracteres
+    },
+    message: 'La contraseña debe tener al menos 8 caracteres'
+  } },
   role: { type: String },
   permissions: [{ type: String }],
   createdAt: { type: Date, default: Date.now },

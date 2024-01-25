@@ -1,4 +1,3 @@
-import { DatabaseError } from '../../../types/Responses/DatabaseError'
 import { UserValue } from '../../domain/UserValue'
 import { UserEntity } from '../../domain/UserEntity'
 import { UserRepository } from '../../domain/UserRepository'
@@ -29,9 +28,9 @@ export class MongoUserRepository implements UserRepository {
     } catch (error) {
       console.log('error', error);
       if (error instanceof Error) {
-        throw new DatabaseError('Error registering user: ' + error.message)
+        throw new Error('Error registering user: ' + error.message)
       } else {
-        throw new DatabaseError('Unknown error while registering user')
+        throw new Error('Unknown error while registering user')
       }
     }
   }
@@ -56,9 +55,9 @@ export class MongoUserRepository implements UserRepository {
     } catch (error) {
       console.log('error', error);
       if (error instanceof Error) {
-        throw new DatabaseError('Error registering user: ' + error.message)
+        throw new Error('Error registering user: ' + error.message)
       } else {
-        throw new DatabaseError('Unknown error while registering user')
+        throw new Error('Unknown error while registering user')
       }
     }
   }

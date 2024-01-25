@@ -8,6 +8,8 @@ import OAuthClientSchema from '../models/OAuthClientSchema';
 import UserCredentialSchema from '../../../UserCredential/infrastructure/model/UserCredentialSchema';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { BaseError } from '../../../types/Responses/BaseError';
+import { HttpStatusCode } from '../../../types/HttpStatusCode';
 
 const MAX_LOGIN_ATTEMPTS = process.env.MAX_LOGIN_ATTEMPTS || '3'; // max attempts
 const LOCK_TIME = process.env.LOCK_TIME || '3600000'; // 2hours
@@ -16,12 +18,13 @@ const REFRESH_SECRET_KEY = process.env.REFRESH_SECRET_KEY || 's3cr3tr3fr3sh';
 
 export class TokenRepository implements ITokenRepository {
   async getUser(username: string, password: string): Promise<User | null> {
-    const user = await UserCredentialSchema.findOne({ username }).exec();
+ // try {
+      const user = await UserCredentialSchema.findOne({ username }).exec();
     if (!user) {
-        throw new Error('Usuario no encontrado');
+        throw new BaseError('Credenciales no válidas', HttpStatusCode.BAD_REQUEST, 'credentials not found', true);
     }
     if (user.lockUntil && user.lockUntil > Date.now()) {
-        throw new Error('La cuenta está bloqueada temporalmente');
+      throw new BaseError(`La cuenta está bloqueada temporalmente, intente de nuevo en ${parseInt(LOCK_TIME)/3600000} hora/s`, HttpStatusCode.BAD_REQUEST, 'account blocked', true);
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
@@ -30,7 +33,7 @@ export class TokenRepository implements ITokenRepository {
             user.lockUntil = Date.now() + parseInt(LOCK_TIME);
         }
         await user.save();
-        throw new Error('Contraseña incorrecta');
+        throw new BaseError(`Credenciales incorrectas, tiene ${parseInt(MAX_LOGIN_ATTEMPTS) - user.loginAttempts} intentos`, HttpStatusCode.BAD_REQUEST, 'Incorrect credentials', true);
     }
     if (user.loginAttempts > 0 || user.lockUntil) {
         user.loginAttempts = 0;
@@ -43,14 +46,24 @@ export class TokenRepository implements ITokenRepository {
           role: user.role,
           permissions: user.permissions
         }
-        return userFound;  
+        return userFound;
+ // } catch (error) {
+  //  throw new BaseError('Error al obtener token de acceso, revise las credenciales', HttpStatusCode.BAD_REQUEST, 'token not found', true);
+  // }
+      
   }
   
   async getAccessToken(accessToken: string): Promise<OAuthToken | null> {
     const tokenDocument = await OAuthTokenSchema.findOne({ accessToken: accessToken}).exec();
     if (!tokenDocument) return null;
     const client = await OAuthClientSchema.findById(tokenDocument.client).exec();
+    if (!client) {
+      throw new BaseError('Error al obtener el token', HttpStatusCode.BAD_REQUEST, 'token not found', true);
+    }
     const user = await UserCredentialSchema.findById(tokenDocument.user).exec();
+    if (!user) {
+    throw new BaseError('Error al obtener el token', HttpStatusCode.BAD_REQUEST, 'token not found', true);
+    }
     const token: OAuthToken = {
       accessToken: tokenDocument.accessToken,
       accessTokenExpiresAt: tokenDocument.accessTokenExpiresAt,
@@ -61,31 +74,51 @@ export class TokenRepository implements ITokenRepository {
     };
     return token;
   }
+
   async saveAccessToken(token: OAuthToken, client: OAuthClient, user: User): Promise<OAuthToken> {
-    const tokenDocument = new OAuthTokenSchema({
-      accessToken: token.accessToken,
-      accessTokenExpiresAt: token.accessTokenExpiresAt,
-      refreshToken: token.refreshToken,
-      refreshTokenExpiresAt: token.refreshTokenExpiresAt,
-      client: client.id,
-      user: user.id
-    });
-    await tokenDocument.save();
-    const oauthToken: OAuthToken =  {
-      accessToken: tokenDocument.accessToken,
-      accessTokenExpiresAt: tokenDocument.accessTokenExpiresAt,
-      refreshToken: tokenDocument.refreshToken,
-      refreshTokenExpiresAt: tokenDocument.refreshTokenExpiresAt,
-      client: client,
-      user: user
-    };
-    return oauthToken;
+    try {
+      if(!token && !client && !user) {
+        throw new BaseError('Error al obtener el token', HttpStatusCode.BAD_REQUEST, 'token not found', true);
+      }
+      const tokenDocument = new OAuthTokenSchema({
+        accessToken: token.accessToken,
+        accessTokenExpiresAt: token.accessTokenExpiresAt,
+        refreshToken: token.refreshToken,
+        refreshTokenExpiresAt: token.refreshTokenExpiresAt,
+        client: client.id,
+        user: user.id
+      });
+      await tokenDocument.save();
+      const oauthToken: OAuthToken =  {
+        accessToken: tokenDocument.accessToken,
+        accessTokenExpiresAt: tokenDocument.accessTokenExpiresAt,
+        refreshToken: tokenDocument.refreshToken,
+        refreshTokenExpiresAt: tokenDocument.refreshTokenExpiresAt,
+        client: client,
+        user: user
+      };
+      return oauthToken;
+    } catch (error) {
+      throw new BaseError('Error al obtener token de acceso, revise las credenciales', HttpStatusCode.BAD_REQUEST, 'token not found', true);
+    }
+    
   }
   async getRefreshToken(refreshToken: string): Promise<OAuthToken | null> {
     const tokenDocument = await OAuthTokenSchema.findOne({ refreshToken: refreshToken}).exec();
-    if (!tokenDocument) return null;
+    if (!tokenDocument) 
+    throw new BaseError('Error al obtener token de acceso, revise las credenciales', HttpStatusCode.BAD_REQUEST, 'token not found', true);;
+    
     const client = await OAuthClientSchema.findById(tokenDocument.client).exec();
+    if (!client) {
+      throw new BaseError('Error al obtener el token', HttpStatusCode.BAD_REQUEST, 'token not found', true);
+    }
+
     const user = await UserCredentialSchema.findById(tokenDocument.user).exec();
+
+    if (!user) {
+      throw new BaseError('Error al obtener el token', HttpStatusCode.BAD_REQUEST, 'token not found', true);
+    }
+
     const token: OAuthToken = {
       accessToken: tokenDocument.accessToken,
       accessTokenExpiresAt: tokenDocument.accessTokenExpiresAt,
@@ -98,17 +131,25 @@ export class TokenRepository implements ITokenRepository {
   }
   
   async getClient(clientId: string, clientSecret: string): Promise<OAuthClient | null> {
+
     const oauthclientDocument = await OAuthClientSchema.findOne({ id: clientId, clientSecret: clientSecret }).exec();
-    if (!oauthclientDocument) return null;
+
+    if (!oauthclientDocument) 
+    throw new BaseError('Error al obtener token de acceso, revise las credenciales', HttpStatusCode.BAD_REQUEST, 'token not found', true);
+    
     const client: OAuthClient = {
-      id: oauthclientDocument.id,
-      redirectUris: oauthclientDocument.redirectUris,
-      grants: oauthclientDocument.grants,
-      accessTokenLifetime: oauthclientDocument.accessTokenLifetime,
-      refreshTokenLifetime: oauthclientDocument.refreshTokenLifetime
-  };
-  return client;
+        id: oauthclientDocument.id,
+        redirectUris: oauthclientDocument.redirectUris,
+        grants: oauthclientDocument.grants,
+        accessTokenLifetime: oauthclientDocument.accessTokenLifetime,
+        refreshTokenLifetime: oauthclientDocument.refreshTokenLifetime
+      };
+    
+    return client;
   }
+
+
+
   async verifyScope(token: OAuthToken, scope: string | string[]): Promise<boolean> {
     if(!token.scope) return false;
     let requestedScopes;

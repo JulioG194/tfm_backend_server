@@ -1,5 +1,6 @@
 import {connect} from 'mongoose';
 import databaseConfig from './db.config';
+import { logger } from '../../core/shared/Logger';
 
 const { username, password, uri, database } = databaseConfig;
 
@@ -8,9 +9,9 @@ const mongoURI = `mongodb+srv://${username}:${password}@${uri}/${database}`;
 const connection = async (): Promise<void> => {
     try {
       await connect(mongoURI);
-      console.log("Connected to MongoDB");
+      logger.info("Connected to MongoDB");
     } catch (error) {
-      console.error("Error connecting to MongoDB", error);
+      logger.error("Error connecting to MongoDB", error);
     }
   };
   
