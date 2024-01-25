@@ -12,7 +12,10 @@ const securityMiddleware = (req: Request, res: Response, next: NextFunction) => 
         });
         limiter(req, res, () => {
             hpp()(req, res, () => {
-                cors()(req, res, () => {
+                cors({
+                    origin:'http://localhost:4200',
+                    credentials: true,
+                })(req, res, () => {
                     next();
                 });
             });
