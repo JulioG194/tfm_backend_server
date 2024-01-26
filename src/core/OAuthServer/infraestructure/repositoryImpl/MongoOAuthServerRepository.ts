@@ -56,11 +56,11 @@ export class TokenRepository implements ITokenRepository {
   async getAccessToken(accessToken: string): Promise<OAuthToken | null> {
     const tokenDocument = await OAuthTokenSchema.findOne({ accessToken: accessToken}).exec();
     if (!tokenDocument) return null;
-    const client = await OAuthClientSchema.findById(tokenDocument.client).exec();
+    const client = await OAuthClientSchema.findOne({id: tokenDocument.client}).exec();
     if (!client) {
       throw new BaseError('Error al obtener el token', HttpStatusCode.BAD_REQUEST, 'token not found', true);
     }
-    const user = await UserCredentialSchema.findById(tokenDocument.user).exec();
+    const user = await UserCredentialSchema.findOne({id: tokenDocument.user}).exec();
     if (!user) {
     throw new BaseError('Error al obtener el token', HttpStatusCode.BAD_REQUEST, 'token not found', true);
     }
@@ -108,12 +108,12 @@ export class TokenRepository implements ITokenRepository {
     if (!tokenDocument) 
     throw new BaseError('Error al obtener token de acceso, revise las credenciales', HttpStatusCode.BAD_REQUEST, 'token not found', true);;
     
-    const client = await OAuthClientSchema.findById(tokenDocument.client).exec();
+    const client = await OAuthClientSchema.findById({id: tokenDocument.client}).exec();
     if (!client) {
       throw new BaseError('Error al obtener el token', HttpStatusCode.BAD_REQUEST, 'token not found', true);
     }
 
-    const user = await UserCredentialSchema.findById(tokenDocument.user).exec();
+    const user = await UserCredentialSchema.findById({id: tokenDocument.user}).exec();
 
     if (!user) {
       throw new BaseError('Error al obtener el token', HttpStatusCode.BAD_REQUEST, 'token not found', true);
@@ -131,7 +131,6 @@ export class TokenRepository implements ITokenRepository {
   }
   
   async getClient(clientId: string, clientSecret: string): Promise<OAuthClient | null> {
-
     const oauthclientDocument = await OAuthClientSchema.findOne({ id: clientId, clientSecret: clientSecret }).exec();
 
     if (!oauthclientDocument) 

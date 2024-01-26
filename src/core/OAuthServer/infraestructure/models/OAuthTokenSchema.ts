@@ -6,8 +6,8 @@ interface IOAuthToken extends Document {
     refreshToken?: string;
     refreshTokenExpiresAt?: Date;
     scope?: string | string[];
-    client: mongoose.Types.ObjectId;
-    user: mongoose.Types.ObjectId;
+    client: string;
+    user: string;
 }
 
 const OAuthTokenSchema: Schema = new Schema({
