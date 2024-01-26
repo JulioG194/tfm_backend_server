@@ -50,7 +50,8 @@ export class MongoWorkerRepository implements WorkerRepository {
         throw new BaseError('Usuario no encontrado', HttpStatusCode.BAD_REQUEST,'user not found', true);
       }
       const workerInfo = await WorkerSchema.create(workerInput)
-      const worker  = { id: workerInfo.id, 
+      const worker  = { 
+        id: workerInfo.id, 
         email: workerInfo.email, 
         name: workerInfo.name ?? '', 
         surname: workerInfo.surname ?? '', 

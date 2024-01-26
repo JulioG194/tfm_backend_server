@@ -1,4 +1,4 @@
-export interface WorkerEntity {
+export interface RecruiterEntity {
     id: string;
     name?: string;
     surname?: string;

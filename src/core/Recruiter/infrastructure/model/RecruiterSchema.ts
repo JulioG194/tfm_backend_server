@@ -1,7 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
-import { v4 as uuidv4 } from 'uuid';
 
-export interface IWorker extends Document {
+export interface IRecruiter extends Document {
   id: string;
   name?: string;
   surname?: string;
@@ -16,7 +15,7 @@ export interface IWorker extends Document {
   address?: string;
 }
 
-const WorkerSchema: Schema = new Schema({
+const RecruiterSchema: Schema = new Schema({
   id: { type: String,required: true, unique: true  },
   name: { type: String },
   surname: { type: String },
@@ -33,6 +32,6 @@ const WorkerSchema: Schema = new Schema({
   toObject: { virtuals: true }
 });
 
-export default mongoose.model<IWorker>('Worker', WorkerSchema);
+export default mongoose.model<IRecruiter>('Recruiter', RecruiterSchema);
 
 

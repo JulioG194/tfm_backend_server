@@ -1,15 +1,14 @@
 import { WorkerRepository } from "../../domain/WorkerRepository";
-import { WorkerValue } from "../../domain/WorkerValue";
 
-export class WorkerRegister{
+export class WorkerGetter{
     constructor(private workerRepository:WorkerRepository) {}
 
-    public run = async (workerRequest: workerRequestGetter) => {
+    public run = async (workerRequest: WorkerRequestGetter) => {
         const worker = await this.workerRepository.findById(workerRequest.id);
         return worker;
     }
 }
 
-interface workerRequestGetter {
+interface WorkerRequestGetter {
     id: string; 
 }

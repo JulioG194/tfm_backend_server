@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { WorkerController } from "../controller";
+import { WorkerRegisterController } from "../controller";
 import { WorkerRegister, } from "../useCases/WorkerRegister";
 import { MongoWorkerRepository } from "../../infrastructure/repositoryImpl/MongoWorkerRepository";
 
 const route = Router();
 const workerRepo = new MongoWorkerRepository();
 const workerRegister = new WorkerRegister(workerRepo);
-const workerCtrl = new WorkerController(workerRegister);
-route.post(`/register-info`, workerCtrl.registerCtrl);
+const workerRegisterCtrl = new WorkerRegisterController(workerRegister);
+route.post(`/register-info`, workerRegisterCtrl.registerCtrl);
 
 export default route
