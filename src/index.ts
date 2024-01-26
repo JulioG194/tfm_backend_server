@@ -3,6 +3,7 @@ import express, { Express } from "express";
 import connection from "./config/database/db.connection";
 import securityMiddleware from "./middlewares/securityMiddleware";
 import userCredentialRoute from "./core/UserCredential/application/route";
+import workerRoute from "./core/Worker/application/route";
 import clientRoute from "./core/OAuthServer/application/route";
 import oauthRoute from "./core/OAuthServer/application/route/oauthRoute";
 import handleErrorMiddleware from './middlewares/handleErrorMiddleware';
@@ -20,6 +21,7 @@ app.use((req, res, next) => {
 });
 app.use(handleErrorMiddleware);
 app.use('/user',userCredentialRoute)
+app.use('/worker',workerRoute);
 app.use(clientRoute);
 app.use(oauthRoute);
 

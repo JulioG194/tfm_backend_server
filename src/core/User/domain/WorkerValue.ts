@@ -1,7 +1,7 @@
-import { UserEntity } from "./UserEntity";
+import { WorkerEntity } from "./WorkerEntity";
 import { v4 as uuidv4 } from 'uuid';
 
-export class UserValue implements UserEntity{
+export class WorkerValue implements WorkerEntity{
   id: string;
   name?: string;
   surname?: string;
