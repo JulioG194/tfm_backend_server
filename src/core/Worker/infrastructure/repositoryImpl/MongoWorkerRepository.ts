@@ -8,11 +8,11 @@ import { HttpStatusCode } from '../../../types/HttpStatusCode';
 
 export class MongoWorkerRepository implements WorkerRepository {
   async findById(id: string): Promise<WorkerEntity | null> {
-    try {
+   // try {
       const workerResp = await WorkerSchema.findOne({ id }).exec();
       console.log('worker', workerResp);
     if (!workerResp) {
-      throw new BaseError('Usuario no encontrado', HttpStatusCode.NOT_FOUND,'worker not found', true);
+      throw new BaseError('Error al obtener información, usuario no encontrado', HttpStatusCode.NOT_FOUND,'worker not found', true);
     }
       const worker  = { id: workerResp.id, 
                         email: workerResp.email, 
@@ -27,10 +27,10 @@ export class MongoWorkerRepository implements WorkerRepository {
                         postalCode: workerResp.postalCode ?? '',
                         sex: workerResp.sex ?? ''};
         return worker;
-    } catch (error) {
-      console.log('error', error);
-      throw new BaseError('Error al encontrar el trabajador', HttpStatusCode.BAD_REQUEST,'worker not found', true);
-    }
+   // } catch (error) {
+    //  console.log('error', error);
+     // throw new BaseError('Error al encontrar el trabajador', HttpStatusCode.BAD_REQUEST,'worker not found', true);
+   // }
   }
   findAll(): Promise<WorkerEntity[]> {
       throw new Error('Method not implemented.')
@@ -42,12 +42,12 @@ export class MongoWorkerRepository implements WorkerRepository {
       throw new Error('Method not implemented.')
   }
   async register (workerInput: WorkerValue): Promise<WorkerValue> {
-    try {
+   // try {
       console.log('workerInput', workerInput);
       const userCred = await UserCredentialSchema.findOne({ username: workerInput.email }).exec();
       console.log('userCred', userCred);
     if (!userCred) {
-        throw new BaseError('Usuario no encontrado', HttpStatusCode.BAD_REQUEST,'user not found', true);
+        throw new BaseError('Error al actualizar información, usuario no encontrado', HttpStatusCode.BAD_REQUEST,'user not found', true);
       }
       const workerInfo = await WorkerSchema.create(workerInput)
       const worker  = { 
@@ -64,8 +64,8 @@ export class MongoWorkerRepository implements WorkerRepository {
         postalCode: workerInfo.postalCode ?? '',
         sex: workerInfo.sex ?? ''};
         return worker;
-    } catch (error) {
-      throw new BaseError('Error al actualizar información de trabajador', HttpStatusCode.BAD_REQUEST,'register unsucessful', true);
-    }
+   // } catch (error) {
+    //  throw new BaseError('Error al actualizar información de trabajador', HttpStatusCode.BAD_REQUEST,'register unsucessful', true);
+    //}
   }
 }

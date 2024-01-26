@@ -47,10 +47,6 @@ export class TokenRepository implements ITokenRepository {
           permissions: user.permissions
         }
         return userFound;
- // } catch (error) {
-  //  throw new BaseError('Error al obtener token de acceso, revise las credenciales', HttpStatusCode.BAD_REQUEST, 'token not found', true);
-  // }
-      
   }
   
   async getAccessToken(accessToken: string): Promise<OAuthToken | null> {
@@ -108,12 +104,12 @@ export class TokenRepository implements ITokenRepository {
     if (!tokenDocument) 
     throw new BaseError('Error al obtener token de acceso, revise las credenciales', HttpStatusCode.BAD_REQUEST, 'token not found', true);;
     
-    const client = await OAuthClientSchema.findById({id: tokenDocument.client}).exec();
+    const client = await OAuthClientSchema.findOne({id: tokenDocument.client}).exec();
     if (!client) {
       throw new BaseError('Error al obtener el token', HttpStatusCode.BAD_REQUEST, 'token not found', true);
     }
 
-    const user = await UserCredentialSchema.findById({id: tokenDocument.user}).exec();
+    const user = await UserCredentialSchema.findOne({id: tokenDocument.user}).exec();
 
     if (!user) {
       throw new BaseError('Error al obtener el token', HttpStatusCode.BAD_REQUEST, 'token not found', true);

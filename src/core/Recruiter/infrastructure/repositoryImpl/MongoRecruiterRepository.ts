@@ -8,11 +8,11 @@ import { HttpStatusCode } from '../../../types/HttpStatusCode';
 
 export class MongoRecruiterRepository implements RecruiterRepository {
   async findById(id: string): Promise<RecruiterEntity | null> {
-    try {
+   // try {
       const recruiterResp = await RecruiterSchema.findOne({ id }).exec();
       console.log('Recruiter', recruiterResp);
     if (!recruiterResp) {
-      throw new BaseError('Usuario no encontrado', HttpStatusCode.NOT_FOUND,'Recruiter not found', true);
+      throw new BaseError('Error al obtener información, usuario no encontrado', HttpStatusCode.NOT_FOUND,'Recruiter not found', true);
     }
       const recruiter  = { 
                         id: recruiterResp.id, 
@@ -28,10 +28,10 @@ export class MongoRecruiterRepository implements RecruiterRepository {
                         postalCode: recruiterResp.postalCode ?? '',
                         sex: recruiterResp.sex ?? ''};
         return recruiter;
-    } catch (error) {
-      console.log('error', error);
-      throw new BaseError('Error al encontrar el trabajador', HttpStatusCode.BAD_REQUEST,'Recruiter not found', true);
-    }
+  //  } catch (error) {
+    //  console.log('error', error);
+    //  throw new BaseError('Error al encontrar el trabajador', HttpStatusCode.BAD_REQUEST,'Recruiter not found', true);
+    //}
   }
   findAll(): Promise<RecruiterEntity[]> {
       throw new Error('Method not implemented.')
@@ -43,12 +43,12 @@ export class MongoRecruiterRepository implements RecruiterRepository {
       throw new Error('Method not implemented.')
   }
   async register (recruiterInput: RecruiterValue): Promise<RecruiterValue> {
-    try {
+   // try {
       console.log('RecruiterInput', recruiterInput);
       const userCred = await UserCredentialSchema.findOne({ username: recruiterInput.email }).exec();
       console.log('userCred', userCred);
     if (!userCred) {
-        throw new BaseError('Usuario no encontrado', HttpStatusCode.BAD_REQUEST,'user not found', true);
+        throw new BaseError('Error al actualizar información, usuario no encontrado', HttpStatusCode.BAD_REQUEST,'user not found', true);
       }
       const recruiterInfo = await RecruiterSchema.create(recruiterInput)
       const recruiter  = { id: recruiterInfo.id, 
@@ -64,8 +64,8 @@ export class MongoRecruiterRepository implements RecruiterRepository {
         postalCode: recruiterInfo.postalCode ?? '',
         sex: recruiterInfo.sex ?? ''};
         return recruiter;
-    } catch (error) {
-      throw new BaseError('Error al actualizar información de trabajador', HttpStatusCode.BAD_REQUEST,'register unsucessful', true);
-    }
+   // } catch (error) {
+    //  throw new BaseError('Error al actualizar información de reclutador', HttpStatusCode.BAD_REQUEST,'register unsucessful', true);
+    //}
   }
 }
