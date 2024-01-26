@@ -11,4 +11,5 @@ export interface WorkerEntity {
     city?:string;
     postalCode?: string;
     address?: string;
+    avatar?: string;
 }

@@ -25,7 +25,9 @@ export class MongoWorkerRepository implements WorkerRepository {
                         phoneNumber: workerResp.phoneNumber ?? '',
                         province: workerResp.province ?? '',
                         postalCode: workerResp.postalCode ?? '',
-                        sex: workerResp.sex ?? ''};
+                        sex: workerResp.sex ?? '',
+                        avatar: workerResp.avatar ?? '',
+                      };
         return worker;
    // } catch (error) {
     //  console.log('error', error);
@@ -62,7 +64,9 @@ export class MongoWorkerRepository implements WorkerRepository {
         phoneNumber: workerInfo.phoneNumber ?? '',
         province: workerInfo.province ?? '',
         postalCode: workerInfo.postalCode ?? '',
-        sex: workerInfo.sex ?? ''};
+        sex: workerInfo.sex ?? '',
+        avatar: workerInfo.avatar?? '',
+      };
         return worker;
    // } catch (error) {
     //  throw new BaseError('Error al actualizar información de trabajador', HttpStatusCode.BAD_REQUEST,'register unsucessful', true);

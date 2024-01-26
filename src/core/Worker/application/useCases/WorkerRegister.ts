@@ -23,4 +23,5 @@ interface WorkerRequestRegister {
     city:string;
     postalCode: string;
     address: string;
+    avatar: string;
 }

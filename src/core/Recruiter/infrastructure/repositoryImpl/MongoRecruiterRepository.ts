@@ -26,7 +26,9 @@ export class MongoRecruiterRepository implements RecruiterRepository {
                         phoneNumber: recruiterResp.phoneNumber ?? '',
                         province: recruiterResp.province ?? '',
                         postalCode: recruiterResp.postalCode ?? '',
-                        sex: recruiterResp.sex ?? ''};
+                        sex: recruiterResp.sex ?? '',
+                        avatar: recruiterResp.avatar?? '',
+                      };
         return recruiter;
   //  } catch (error) {
     //  console.log('error', error);
@@ -62,7 +64,9 @@ export class MongoRecruiterRepository implements RecruiterRepository {
         phoneNumber: recruiterInfo.phoneNumber ?? '',
         province: recruiterInfo.province ?? '',
         postalCode: recruiterInfo.postalCode ?? '',
-        sex: recruiterInfo.sex ?? ''};
+        sex: recruiterInfo.sex ?? '',
+        avatar: recruiterInfo.avatar ?? ''
+      };
         return recruiter;
    // } catch (error) {
     //  throw new BaseError('Error al actualizar información de reclutador', HttpStatusCode.BAD_REQUEST,'register unsucessful', true);

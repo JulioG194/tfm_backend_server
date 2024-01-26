@@ -19,6 +19,7 @@ export class WorkerRegisterController {
           city: body.city,
           postalCode: body.postalCode,
           address: body.address,
+          avatar: body.avatar
         });
         res.status(200).send(new HttpResponse('Información de trabajador registrada con éxito', HttpStatusCode.OK, worker));
     } catch(error: any){

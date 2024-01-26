@@ -14,11 +14,12 @@ export class WorkerValue implements WorkerEntity{
   city?:string;
   postalCode?: string;
   address?: string;
+  avatar?: string;
   
     constructor({ name, surname, 
                   email, phoneNumber, sex, 
                   employment, description, 
-                  province, city, postalCode, address }: {
+                  province, city, postalCode, address, avatar }: {
                     
       name: string;
       surname: string;
@@ -31,6 +32,7 @@ export class WorkerValue implements WorkerEntity{
       city:string;
       postalCode: string;
       address: string;
+      avatar: string;
               }
                 ) {
         this.id = uuidv4();
@@ -45,6 +47,7 @@ export class WorkerValue implements WorkerEntity{
         this.city = city;
         this.postalCode = postalCode;
         this.address = address;
+        this.avatar = avatar;
     }
   
   }

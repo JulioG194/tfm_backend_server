@@ -11,4 +11,5 @@ export interface RecruiterEntity {
     city?:string;
     postalCode?: string;
     address?: string;
+    avatar?: string;
 }
