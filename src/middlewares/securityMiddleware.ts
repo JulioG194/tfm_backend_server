@@ -5,7 +5,14 @@ import rateLimit from 'express-rate-limit';
 import { NextFunction, Request, Response } from 'express';
 
 const securityMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    helmet()(req, res, () => {
+    helmet({
+        contentSecurityPolicy: {
+            directives: {
+                defaultSrc: ["'self'"],
+                scriptSrc: ["'self'", "https://trusted.cdn.com"],
+            }
+        }
+    })(req, res, () => {
         const limiter = rateLimit({
             windowMs: 15 * 60 * 1000, 
             max: 100 
