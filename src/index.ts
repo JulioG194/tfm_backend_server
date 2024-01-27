@@ -2,9 +2,7 @@ import 'dotenv/config';
 import express, { Express } from "express";
 import connection from "./config/database/db.connection";
 import securityMiddleware from "./middlewares/securityMiddleware";
-import userCredentialRoute from "./core/UserCredential/application/route";
-import workerRoute from "./core/Worker/application/route";
-import recruiterRoute from "./core/Recruiter/application/route";
+import apiRoute from "./core/shared/routes/ApiRoutes";
 import clientRoute from "./core/OAuthServer/application/route";
 import oauthRoute from "./core/OAuthServer/application/route/oauthRoute";
 import handleErrorMiddleware from './middlewares/handleErrorMiddleware';
@@ -16,16 +14,25 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(securityMiddleware);
-app.use((req, res, next) => {
-  logger.info(`${req.method} ${req.url}`);
-  next();
-});
-app.use(handleErrorMiddleware);
-app.use('/user',userCredentialRoute)
-app.use('/worker',workerRoute);
-app.use('/recruiter', recruiterRoute);
 app.use(clientRoute);
 app.use(oauthRoute);
+app.use('/api', apiRoute);
+//app.use((req, res, next) => {
+ // logger.info(`${req.method} ${req.url}`);
+ // next();
+//});
+//app.use(handleErrorMiddleware);
+// Después de todas tus rutas y otros middleware
+app.use((req, res, next) => {
+  res.status(404).json({ error: "Not Found", message: "La ruta solicitada no existe" });
+});
+
+app.use((err: any, req: any, res:any, next: any) => {
+  console.error(err);
+  const statusCode = err.statusCode || 500;
+  res.status(statusCode).json({ error: "Error Interno", message: err.message });
+});
+
 
 async function startServer() {
   try {

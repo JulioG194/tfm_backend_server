@@ -5,12 +5,29 @@ import UserCredentialSchema from '../model/UserCredentialSchema'
 import { logger } from '../../../shared/Logger'
 import { BaseError } from '../../../types/Responses/BaseError'
 import { HttpStatusCode } from '../../../types/HttpStatusCode';
+import { WorkerValue } from '../../../Worker/domain/WorkerValue'
+import { RecruiterValue } from '../../../Recruiter/domain/RecruiterValue'
+import WorkerSchema from '../../../Worker/infrastructure/model/WorkerSchema'
+import RecruiterSchema from '../../../Recruiter/infrastructure/model/RecruiterSchema'
 
 
 export class MongoUserCredentialRepository implements UserCredentialRepository {
   async register (userCredential: UserCredentialValue): Promise<void> {
     try {
-      await UserCredentialSchema.create(userCredential)
+      const userCredRegister = await UserCredentialSchema.create(userCredential);
+      const userProps = {  
+        email: userCredRegister.username, name:  '',  surname:  '',  address: '', city:  '', description:  '',employment:  '',
+        phoneNumber:  '', province:  '', postalCode:  '',sex:  '', avatar:  '',
+      }
+
+      if(userCredRegister.role === 'worker') {
+      const user = new WorkerValue(userProps);
+      await WorkerSchema.create(user);
+      }
+      if(userCredRegister.role === 'recruiter') {
+        const user = new RecruiterValue(userProps);
+        await RecruiterSchema.create(user);
+      }
     } catch (error: any) {
       let validatorsErrors = '';
       let logValidatorsErrors = '';

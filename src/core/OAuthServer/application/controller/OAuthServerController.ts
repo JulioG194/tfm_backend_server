@@ -17,7 +17,11 @@ export class OAuthServerController {
                 accessTokenExpiresAt: token.accessTokenExpiresAt,
                 refreshToken: token.refreshToken,
                 refreshTokenExpiresAt: token.refreshTokenExpiresAt,
-                user: token.user
+                user: {
+                    username: token.user.username,
+                    role: token.user.role,
+                    permissions: token.user.permissions
+                }
             };
             res.status(200).json(new HttpResponse('Token obtenido con éxito', HttpStatusCode.OK, accessToken));
         } catch (error: any) {
