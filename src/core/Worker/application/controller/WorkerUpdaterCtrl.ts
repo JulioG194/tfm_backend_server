@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { WorkerRegister } from "../useCases/WorkerRegister";
 import { HttpResponse } from "../../../types/Responses/HttpResponse";
 import { HttpStatusCode } from '../../../types/HttpStatusCode';
 import { PersonBuilder } from "../../../utils/PersonBuilder";

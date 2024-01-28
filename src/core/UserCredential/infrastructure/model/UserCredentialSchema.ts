@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import 'dotenv/config'
 import mongoose, { Schema, type Document } from 'mongoose'
-import { v4 as uuidv4 } from 'uuid'
 import bcrypt from 'bcrypt'
 
 const ENV_SALT = process.env.SALT ?? '10'
@@ -24,7 +22,7 @@ const UserCredentialSchema: Schema = new Schema({
               match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.\w{2,3})+$/, 'Por favor ingrese un correo electrónico válido'] },
   password: { type: String, required: true, validate: {
     validator: function(v: string | any[]) {
-      return v.length >= 8; // Asegúrate de que el password tenga al menos 8 caracteres
+      return v.length >= 8;
     },
     message: 'La contraseña debe tener al menos 8 caracteres'
   } },
@@ -38,18 +36,6 @@ const UserCredentialSchema: Schema = new Schema({
   timestamps: true
 })
 
-/* UserCredentialSchema.virtual('id').get(function () {
-  return this._id
-})
-
-UserCredentialSchema.set('toJSON', {
-  virtuals: true,
-  transform: (_, ret) => {
-    delete ret._id
-    delete ret.__v
-  }
-}) */
-
 UserCredentialSchema.set('toObject', { virtuals: true })
 
 UserCredentialSchema.pre<IUserCredential>('save', async function (next) {
@@ -61,8 +47,8 @@ UserCredentialSchema.pre<IUserCredential>('save', async function (next) {
 })
 
 UserCredentialSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  return await bcrypt.compare(candidatePassword, this.password)
+  const result =  await bcrypt.compare(candidatePassword, this.password);
+  return result;
 }
 
 export default mongoose.model<IUserCredential>('UserCredential', UserCredentialSchema)
