@@ -16,7 +16,10 @@ export class MongoUserCredentialRepository implements UserCredentialRepository {
   async register (userCredential: UserCredentialValue): Promise<void> {
     try {
       const userCredRegister = await UserCredentialSchema.create(userCredential);
-      const userProps = PersonBuilder(userCredRegister);
+      const userProps = {  
+        email: userCredRegister.username, name:  '',  surname:  '',  address: '', city:  '', description:  '',employment:  '',
+        phoneNumber:  '', province:  '', postalCode:  '',sex:  '', avatar:  '',
+      }
       
       if(userCredRegister.role === 'worker') {
       const user = new WorkerValue(userProps);
