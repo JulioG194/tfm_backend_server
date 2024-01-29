@@ -37,9 +37,9 @@ jobs:
           echo "image=$ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT    
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        uses: aws-actions/amazon-ecs-render-task-definition@v2
         with:
-          task-definition: nodejs-app-task-def.json
+          task-definition: task-definition.json
           container-name: tfm-node-server
           image: ${{ steps.build-image.outputs.image }}    
       - name: Deploy Amazon ECS task definition
