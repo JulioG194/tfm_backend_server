@@ -1,4 +1,4 @@
-name: CICD TFM WORKFLOW
+name: CICDTFM
 
 on:
   push:
