@@ -52,17 +52,20 @@ export class MongoRecruiterRepository implements RecruiterRepository {
       throw new Error('Method not implemented.')
   }
 
-  async update(RecruiterInput: RecruiterEntity): Promise<void> {
-    const userCred = await UserCredentialSchema.findOne({ email: RecruiterInput.email }).exec();
+  async update(recruiterInput: RecruiterEntity): Promise<RecruiterValue> {
+    console.log("update REpo:");
+    console.log(recruiterInput.email);
+    
+    
 
-    if (!userCred) throw new BaseError('Error al actualizar información, usuario no encontrado', 
-                                        HttpStatusCode.BAD_REQUEST,
-                                        'user not found', 
-                                        true);
-
-    const recruiterInfo = await RecruiterSchema.findOneAndUpdate({ email: RecruiterInput.email}, 
-                                                            { ...RecruiterInput }, 
+    const recruiterInfo = await RecruiterSchema.findOneAndUpdate({ email: recruiterInput.email}, 
+                                                            { ...recruiterInput }, 
                                                             { new: true })
+    console.log(recruiterInfo);                                                      
+    if (!recruiterInfo) throw new BaseError('Error al actualizar información, usuario no encontrado', 
+                                                            HttpStatusCode.BAD_REQUEST,
+                                                            'user not found', 
+                                                            true);
     const recruiter  = PersonBuilder(recruiterInfo);
     return recruiter;
   }

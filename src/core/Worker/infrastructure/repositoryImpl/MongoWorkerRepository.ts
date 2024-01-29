@@ -56,6 +56,8 @@ export class MongoWorkerRepository implements WorkerRepository {
                                                             { ...workerInput }, 
                                                             { new: true })
 
+    console.log('w', workerInfo);
+
     if (!workerInfo) throw new BaseError('Error al actualizar información, usuario no encontrado', 
                                                             HttpStatusCode.BAD_REQUEST,
                                                             'user not found', 
