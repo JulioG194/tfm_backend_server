@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import winston from "winston";
 import { customLevels } from "../types/customLevels";
 
@@ -15,7 +16,7 @@ const formatter = winston.format.combine(
 );
 
 function isDevEnvironment() {
-    return true;
+  return process.env.MY_ENV === "development";
 }
     
    class Logger {
