@@ -1,7 +1,7 @@
 
 export const PersonBuilder: any = (personInput:any) => {
     return { 
-    id: personInput.id ?? '', 
+    id: personInput.id, 
     email: personInput.email, 
     name: personInput.name ?? '', 
     surname: personInput.surname ?? '', 
