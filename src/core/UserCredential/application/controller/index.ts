@@ -2,8 +2,6 @@ import { Request, Response } from "express";
 import { UserCredentialRegister } from "../useCases";
 import { HttpResponse } from "../../../types/Responses/HttpResponse";
 import { HttpStatusCode } from "../../../types/HttpStatusCode";
-import { BaseError } from "../../../types/Responses/BaseError";
-
 
 export class UserCredentialController {
   constructor(private userCredentialRegister: UserCredentialRegister) {}

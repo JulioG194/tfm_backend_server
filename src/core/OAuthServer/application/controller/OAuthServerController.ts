@@ -23,13 +23,19 @@ export class OAuthServerController {
                     permissions: token.user.permissions
                 }
             };
-            res.status(200).json(new HttpResponse('Token obtenido con éxito', HttpStatusCode.OK, accessToken));
+            res.status(200).json(new HttpResponse('Token obtenido con éxito', 
+                                HttpStatusCode.OK, 
+                                accessToken));
         } catch (error: any) {
             if(error.inner){
                 console.log('errorssssss', error.inner.name);
-                res.status(400).json(new HttpResponse(error.inner.name, HttpStatusCode.BAD_REQUEST, null));
+                res.status(400).json(new HttpResponse(error.inner.name, 
+                                    HttpStatusCode.BAD_REQUEST, 
+                                    null));
             } else {
-                res.status(400).json(new HttpResponse('Error al obtener token de acceso, revise las credenciales', HttpStatusCode.BAD_REQUEST, null));
+                res.status(400).json(new HttpResponse('Error al obtener token de acceso, revise las credenciales', 
+                                                        HttpStatusCode.BAD_REQUEST, 
+                                                        null));
             }
            
         }
