@@ -119,6 +119,23 @@ export class TokenRepository implements ITokenRepository {
     }
     
   }
+
+  async revokeToken(token: OAuthToken): Promise<boolean> {
+    try {
+      const result = await OAuthTokenSchema.updateOne(
+        { refreshToken: token.refreshToken },
+        { $set: { refreshToken: null, refreshTokenExpiresAt: new Date() } }
+      );
+  
+      return result.modifiedCount > 0;
+    } catch (error) {
+      throw new BaseError('Error al revocar el token', 
+                          HttpStatusCode.INTERNAL_SERVER, 
+                          'internal server error', 
+                          true);
+    }
+  }
+
   async getRefreshToken(refreshToken: string): Promise<OAuthToken | null> {
     const tokenDocument = await OAuthTokenSchema.findOne({ refreshToken: refreshToken}).exec();
     if (!tokenDocument) 
