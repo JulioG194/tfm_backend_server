@@ -25,6 +25,11 @@ export class OAuthModel {
     return savedToken;
   }
 
+  public revokeToken = async (token: OAuthToken): Promise<boolean | null> => {
+    const result = await this.tokenRepository.revokeToken(token);
+    return result;
+  }
+
   public verifyScope = async (token: OAuthToken, scope: string | string[]): Promise<boolean> =>{
     const result = await this.tokenRepository.verifyScope(token, scope);
     return result;

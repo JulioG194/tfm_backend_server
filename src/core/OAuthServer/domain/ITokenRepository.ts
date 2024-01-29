@@ -11,4 +11,5 @@ export interface ITokenRepository {
   getUser(username: string, password: string): Promise<User | null>;
   generateAccessToken(client: OAuthClient, user: User, scope: string | string[]): Promise<string>;
   generateRefreshToken(client: OAuthClient, user: User, scope: string | string[]): Promise<string>;
+  revokeToken(token: OAuthToken): Promise<boolean>;
 }
