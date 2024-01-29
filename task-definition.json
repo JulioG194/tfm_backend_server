@@ -1,0 +1,134 @@
+{
+    "taskDefinitionArn": "arn:aws:ecs:us-east-1:681723166170:task-definition/nodejs-app-task-def:2",
+    "containerDefinitions": [
+        {
+            "name": "tfm-node-server",
+            "image": "681723166170.dkr.ecr.us-east-1.amazonaws.com/tfm-node-server",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "name": "tfm-node-server-5000-tcp",
+                    "containerPort": 5000,
+                    "hostPort": 5000,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                }
+            ],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "SALT",
+                    "value": "11"
+                },
+                {
+                    "name": "AWS_REGION",
+                    "value": "us-east-1"
+                },
+                {
+                    "name": "DB_URI",
+                    "value": "tfm.kr3gbg7.mongodb.net"
+                },
+                {
+                    "name": "PORT",
+                    "value": "5000"
+                },
+                {
+                    "name": "DB_USERNAME",
+                    "value": "tfmdb"
+                },
+                {
+                    "name": "ACCESS_SECRET_KEY",
+                    "value": "s3cr3t4pp"
+                },
+                {
+                    "name": "DB_NAME",
+                    "value": "tfm"
+                },
+                {
+                    "name": "REFRESH_SECRET_KEY",
+                    "value": "r3fr3shs3cr3t4pp"
+                },
+                {
+                    "name": "MAX_LOGIN_ATTEMPTS",
+                    "value": "3"
+                },
+                {
+                    "name": "LOCK_TIME",
+                    "value": "3600000"
+                },
+                {
+                    "name": "MY_ENV",
+                    "value": "production"
+                },
+                {
+                    "name": "DB_PASSWORD",
+                    "value": "LCRehokPhfx80XPY"
+                }
+            ],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-create-group": "true",
+                    "awslogs-group": "/ecs/nodejs-app-task-def",
+                    "awslogs-region": "us-east-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            }
+        }
+    ],
+    "family": "nodejs-app-task-def",
+    "taskRoleArn": "arn:aws:iam::681723166170:role/ecsExecTaskRole",
+    "executionRoleArn": "arn:aws:iam::681723166170:role/ecsExecTaskRole",
+    "networkMode": "awsvpc",
+    "revision": 2,
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+        },
+        {
+            "name": "ecs.capability.execution-role-awslogs"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.ecr-auth"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.task-iam-role"
+        },
+        {
+            "name": "ecs.capability.execution-role-ecr-pull"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        },
+        {
+            "name": "ecs.capability.task-eni"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EC2",
+        "FARGATE"
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "1024",
+    "memory": "3072",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    },
+    "registeredAt": "2024-01-29T04:09:18.260Z",
+    "registeredBy": "arn:aws:iam::681723166170:root",
+    "tags": []
+}
