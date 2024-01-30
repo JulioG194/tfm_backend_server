@@ -24,10 +24,6 @@ const { username, password, uri, database, port: mongoport } = databaseConfig;
 
 const mongoURI = `mongodb://${username}:${password}@${uri}:${mongoport}/${database}?authSource=admin`;
 
-const options = {
-  serverSelectionTimeoutMS: 40000, // Tiempo de espera para la selección del servidor
-  socketTimeoutMS: 45000, // Tiempo de espera para las operaciones después de conectarse
-};
 
 const app: Express = express();
 const port = process.env.PORT ?? 5000;
@@ -35,7 +31,7 @@ const port = process.env.PORT ?? 5000;
 async function startServer() {
 try {
 //await connection();
-await connect(mongoURI, options );
+await connect(mongoURI );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(securityMiddleware);
