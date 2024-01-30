@@ -35,9 +35,6 @@ await connect(mongoURI );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(securityMiddleware);
-app.use(clientRoute);
-app.use(oauthRoute);
-app.use(uploadFileRoute);
 app.use('/api', apiRoute);
 //app.use((req, res, next) => {
  // logger.info(`${req.method} ${req.url}`);

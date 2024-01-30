@@ -24,4 +24,5 @@ interface RecruiterRequestRegister {
     postalCode: string;
     address: string;
     avatar: string;
+    images: string[]
 }

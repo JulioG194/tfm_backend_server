@@ -19,7 +19,8 @@ export class RecruiterRegisterController {
           city: body.city,
           postalCode: body.postalCode,
           address: body.address,
-          avatar: body.avatar
+          avatar: body.avatar,
+          images: body.images
         });
         res.status(200).send(new HttpResponse('Información del reclutador registrada con éxito', HttpStatusCode.OK, recruiter));
     } catch(error: any){
