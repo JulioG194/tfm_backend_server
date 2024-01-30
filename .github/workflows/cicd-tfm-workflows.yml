@@ -38,7 +38,7 @@ jobs:
       - name: Get task definition ECS
         run: |
           aws ecs describe-task-definition \
-          --task-definition nodejs-app-task-definition \
+          --task-definition nodejs-task-definition \
           --include TAGS \
           --query taskDefinition > task-definition.json
         env:
