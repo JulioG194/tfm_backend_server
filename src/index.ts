@@ -12,6 +12,10 @@ import { logger } from './core/shared/Logger';
 const app: Express = express();
 const port = process.env.PORT ?? 5000;
 
+async function startServer() {
+try {
+await connection();
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(securityMiddleware);
@@ -34,10 +38,6 @@ app.use((err: any, req: any, res:any, next: any) => {
   res.status(statusCode).json({ error: "Error Interno", message: err.message });
 });
 
-
-async function startServer() {
-  try {
-    await connection();
     app.listen(port, () => {
       logger.info(`[server]: Server is running at http://localhost:${port}`);
     });
