@@ -17,7 +17,7 @@ const port = process.env.PORT ?? 5000;
 async function startServer() {
 try {
 //await connection();
-await connect(dbConnection.mongoURI, dbConnection.options );
+/* await connect(dbConnection.mongoURI, dbConnection.options );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(securityMiddleware);
@@ -38,7 +38,7 @@ app.use((err: any, req: any, res:any, next: any) => {
   console.error(err);
   const statusCode = err.statusCode ?? 500;
   res.status(statusCode).json({ error: "Error Interno", message: err.message });
-});
+}); */
 
     app.listen(port, () => {
       logger.info(`[server]: Server is running at http://localhost:${port}`);
