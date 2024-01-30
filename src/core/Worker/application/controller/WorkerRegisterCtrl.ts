@@ -19,7 +19,8 @@ export class WorkerRegisterController {
           city: body.city,
           postalCode: body.postalCode,
           address: body.address,
-          avatar: body.avatar
+          avatar: body.avatar,
+          images: body.images
         });
         res.status(200).send(new HttpResponse('Información de trabajador registrada con éxito', HttpStatusCode.OK, worker));
     } catch(error: any){

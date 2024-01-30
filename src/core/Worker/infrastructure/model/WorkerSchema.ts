@@ -14,6 +14,7 @@ export interface IWorker extends Document {
   postalCode?: string;
   address?: string;
   avatar?: string;
+  images?: string[];
 }
 
 const WorkerSchema: Schema = new Schema({
@@ -30,6 +31,7 @@ const WorkerSchema: Schema = new Schema({
   postalCode: { type: String },
   address: { type: String },
   avatar: { type: String },
+  images: [{ type: String }],
 }, {
   toObject: { virtuals: true }
 });

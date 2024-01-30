@@ -9,7 +9,6 @@ import { WorkerValue } from '../../../Worker/domain/WorkerValue'
 import { RecruiterValue } from '../../../Recruiter/domain/RecruiterValue'
 import WorkerSchema from '../../../Worker/infrastructure/model/WorkerSchema'
 import RecruiterSchema from '../../../Recruiter/infrastructure/model/RecruiterSchema'
-import { PersonBuilder } from '../../../utils/PersonBuilder'
 
 
 export class MongoUserCredentialRepository implements UserCredentialRepository {
@@ -18,7 +17,7 @@ export class MongoUserCredentialRepository implements UserCredentialRepository {
       const userCredRegister = await UserCredentialSchema.create(userCredential);
       const userProps = {  
         email: userCredRegister.username, name:  '',  surname:  '',  address: '', city:  '', description:  '',employment:  '',
-        phoneNumber:  '', province:  '', postalCode:  '',sex:  '', avatar:  '',
+        phoneNumber:  '', province:  '', postalCode:  '',sex:  '', avatar:  '', images: [],
       }
       
       if(userCredRegister.role === 'worker') {

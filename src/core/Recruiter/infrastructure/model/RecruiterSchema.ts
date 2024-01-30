@@ -14,6 +14,7 @@ export interface IRecruiter extends Document {
   postalCode?: string;
   address?: string;
   avatar?: string;
+  images?: string[];
 }
 
 const RecruiterSchema: Schema = new Schema({
@@ -29,7 +30,8 @@ const RecruiterSchema: Schema = new Schema({
   city: { type: String },
   postalCode: { type: String },
   address: { type: String },
-  avatar: { type: String }
+  avatar: { type: String },
+  images: [{ type: String }],
 }, {
   toObject: { virtuals: true }
 });
