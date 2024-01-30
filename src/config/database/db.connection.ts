@@ -5,7 +5,7 @@ import { logger } from '../../core/shared/Logger';
 const { username, password, uri, database, port } = databaseConfig;
 
 //const mongoURI = `mongodb+srv://${username}:${password}@${uri}/${database}`;
-const mongoURI = `mongodb://${username}:${password}@${uri}:${port}/${database}`;
+const mongoURI = `mongodb://${username}:${password}@${uri}:${port}/${database}?authSource=admin`;
 
 const connection = async (): Promise<void> => {
     try {
