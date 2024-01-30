@@ -38,7 +38,7 @@ jobs:
       - name: Get task definition ECS
         run: |
           aws ecs describe-task-definition \
-          --task-definition nodejs-app-task-def \
+          --task-definition nodejs-app-task-defv2 \
           --include TAGS \
           --query taskDefinition > task-definition.json
         env:
@@ -56,6 +56,6 @@ jobs:
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: nodejs-app-servicev3
-          cluster: DevClusterv2
+          service: nodejs-app-serviceV4
+          cluster: DevClusterv3
           wait-for-service-stability: true    
