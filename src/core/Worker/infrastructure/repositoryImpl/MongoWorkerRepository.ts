@@ -11,7 +11,7 @@ export class MongoWorkerRepository implements WorkerRepository {
 
   private async findWorker(query: any): Promise<WorkerEntity | null> {
     try {
-      const workerResp = await WorkerSchema.findOne(query).exec();
+      const workerResp = await WorkerSchema.findOne(query).setOptions({maxTimeMS: 60000}).exec();
       if (!workerResp) throw new BaseError('Error al obtener información, usuario no encontrado', 
                                           HttpStatusCode.NOT_FOUND,
                                           'worker not found', 

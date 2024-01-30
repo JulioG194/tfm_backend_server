@@ -1,8 +1,8 @@
-import {connect} from 'mongoose';
+// import {connect} from 'mongoose';
 import databaseConfig from './db.config';
-import { logger } from '../../core/shared/Logger';
+/* import { logger } from '../../core/shared/Logger';
 import { BaseError } from '../../core/types/Responses/BaseError';
-import { HttpStatusCode } from '../../core/types/HttpStatusCode';
+import { HttpStatusCode } from '../../core/types/HttpStatusCode'; */
 
 const { username, password, uri, database, port } = databaseConfig;
 
@@ -14,7 +14,7 @@ const options = {
   socketTimeoutMS: 45000, // Tiempo de espera para las operaciones después de conectarse
 };
 
-const connection = async (): Promise<void> => {
+/* const connection = async (): Promise<void> => {
     try {
       await connect(mongoURI, options );
       logger.info("Connected to MongoDB");
@@ -25,6 +25,8 @@ const connection = async (): Promise<void> => {
                           'error connect mongodb', 
                           true);
     }
-  };
+};
+ */
+const connectionStrs = { mongoURI, options }
   
-  export default connection;
+export default connectionStrs;
