@@ -25,7 +25,7 @@ const { username, password, uri, database, port: mongoport } = databaseConfig;
 const mongoURI = `mongodb://${username}:${password}@${uri}:${mongoport}/${database}?authSource=admin`;
 
 const options = {
-  serverSelectionTimeoutMS: 5000, // Tiempo de espera para la selección del servidor
+  serverSelectionTimeoutMS: 40000, // Tiempo de espera para la selección del servidor
   socketTimeoutMS: 45000, // Tiempo de espera para las operaciones después de conectarse
 };
 
