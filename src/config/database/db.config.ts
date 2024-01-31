@@ -1,6 +1,4 @@
 
-require('dotenv').config();
-
 export interface DatabaseConfig {
     username: string;
     password: string;
@@ -9,5 +7,3 @@ export interface DatabaseConfig {
     uri: string;
   }
   
-
-  //export default databaseConfig;
