@@ -5,7 +5,16 @@ import apiRoute from "./core/shared/routes/ApiRoutes";
 import handleErrorMiddleware from './middlewares/handleErrorMiddleware';
 import { logger } from './core/shared/Logger';
 import { connect } from 'mongoose';
-import { databaseConfig } from './config/database/db.connection';
+import { DatabaseConfig } from './config/database/db.config';
+//import { databaseConfig } from './config/database/db.connection';
+
+const databaseConfig: DatabaseConfig = {
+  username: process.env.DB_USERNAME ?? '',
+  password: process.env.DB_PASSWORD ?? '',
+  database: process.env.DB_NAME ?? '',
+  port: process.env.DB_PORT?? '',
+  uri: process.env.DB_URI ?? '',
+};
 
 const { username, password, uri, database, port: mongoport } = databaseConfig;
 
