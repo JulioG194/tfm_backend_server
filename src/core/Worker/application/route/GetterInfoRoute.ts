@@ -7,6 +7,6 @@ const route = Router();
 const workerRepo = new MongoWorkerRepository();
 const workerGetter = new WorkerGetter(workerRepo);
 const workerGetterCtrl = new WorkerGetterController(workerGetter);
-route.get('/:id', workerGetterCtrl.getterCtrl);
+route.get('/info/:id', workerGetterCtrl.getterCtrl);
 
 export default route

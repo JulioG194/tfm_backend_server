@@ -218,7 +218,7 @@ export class TokenRepository implements ITokenRepository {
       scope: scope
     };
     const options = {
-      expiresIn: '1h'
+      expiresIn: '5m'
     };
     const jwtToken = jwt.sign(payload, ACCESS_SECRET_KEY, options);
     return jwtToken;

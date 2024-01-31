@@ -7,7 +7,7 @@ const oauthModel = new OAuthModel(tokenRepository);
 
 const oauth = new OAuthServer({
   model: oauthModel,
-  accessTokenLifetime: 60 * 60, // 1h
+  accessTokenLifetime: 60 * 5, // 1h
   refreshTokenLifetime: 60 * 60 * 24 * 7, // 7days
 });
 
