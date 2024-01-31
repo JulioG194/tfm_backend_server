@@ -46,8 +46,10 @@ export class MongoWorkerRepository implements WorkerRepository {
     return this.findWorker({ email });
   }
 
-  findAll(): Promise<WorkerEntity[]> {
-      throw new Error('Method not implemented.')
+  async findAll(): Promise<WorkerEntity[]> {
+      const workersInfo = await WorkerSchema.find();
+      const workers = workersInfo.map(worker => PersonBuilder(worker));
+      return workers;
   }
 
   async update(workerInput: WorkerEntity): Promise<WorkerValue> {
