@@ -5,11 +5,14 @@ import rateLimit from 'express-rate-limit';
 import { NextFunction, Request, Response } from 'express';
 
 const securityMiddleware = (req: Request, res: Response, next: NextFunction) => {
+    //res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+    //res.setHeader('X-Content-Type-Options', 'nosniff');
+    //res.setHeader('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
     helmet({
         contentSecurityPolicy: {
             directives: {
                 defaultSrc: ["'self'"],
-                scriptSrc: ["'self'", "https://trusted.cdn.com"],
+                scriptSrc: ["'self'"],
             }
         }
     })(req, res, () => {
@@ -20,7 +23,7 @@ const securityMiddleware = (req: Request, res: Response, next: NextFunction) => 
         limiter(req, res, () => {
             hpp()(req, res, () => {
                 cors({
-                    origin:'http://localhost:4200',
+                    origin: 'https://web.finaltfm.site',
                     credentials: true,
                 })(req, res, () => {
                     next();
