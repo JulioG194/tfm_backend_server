@@ -6,6 +6,9 @@ import { HttpStatusCode } from '../../../types/HttpStatusCode';
 import { PersonBuilder } from '../../../utils/PersonBuilder'
 import WorkerSchema from '../model/WorkerSchema'
 import UserCredentialSchema from '../../../UserCredential/infrastructure/model/UserCredentialSchema'
+import { JobEntity } from '../../../Job/domain/JobEntity';
+import { JobValue } from '../../../Job/domain/JobValue';
+import JobSchema from '../../../Job/infrastructure/model/JobSchema';
 
 export class MongoWorkerRepository implements WorkerRepository {
 
@@ -42,8 +45,16 @@ export class MongoWorkerRepository implements WorkerRepository {
     return worker;
   }
 
-  async searchByEmail(email: string): Promise<WorkerValue | null> {
-    return this.findWorker({ email });
+  async searchByEmail(email: string): Promise<WorkerEntity | null> {
+    let workerFound = await  WorkerSchema.findOne({ email }).populate('jobs');;
+
+    if (!workerFound) throw new BaseError('Error al obtener información, usuario no encontrado', 
+                                          HttpStatusCode.NOT_FOUND,
+                                          'worker not found', 
+                                          true);
+
+    const worker  = PersonBuilder(workerFound);
+    return worker;
   }
 
   async findAll(): Promise<WorkerEntity[]> {
@@ -71,6 +82,31 @@ export class MongoWorkerRepository implements WorkerRepository {
 
   delete(id: string): Promise<void> {
       throw new Error('Method not implemented.')
+  }
+
+  async addJobs(email: string, jobs: JobEntity[]): Promise<WorkerEntity> {
+    const worker = await this.findWorker({email});
+    if (!worker) throw new BaseError('Error al obtener información, usuario no encontrado', 
+                                          HttpStatusCode.NOT_FOUND,
+                                          'worker not found', 
+                                          true);
+
+    const jobIds = [];
+      for (const jobData of jobs) {
+            const job = new JobValue(jobData);
+            const jobAdded = await JobSchema.create(job);
+            jobIds.push(jobAdded._id);
+    }
+
+    const workerUpdated = await WorkerSchema.findOneAndUpdate(
+      { email },
+      { $push: { jobs: { $each: jobIds } } },
+      { new: true }
+    );
+
+    const workerData  = PersonBuilder(workerUpdated);
+    return workerData;
+
   }
 
   
