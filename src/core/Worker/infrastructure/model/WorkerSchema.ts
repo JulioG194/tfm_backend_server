@@ -15,6 +15,7 @@ export interface IWorker extends Document {
   address?: string;
   avatar?: string;
   images?: string[];
+  jobs: mongoose.Schema.Types.ObjectId[]; 
 }
 
 const WorkerSchema: Schema = new Schema({
@@ -32,6 +33,7 @@ const WorkerSchema: Schema = new Schema({
   address: { type: String },
   avatar: { type: String },
   images: [{ type: String }],
+  jobs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Job' }]
 }, {
   toObject: { virtuals: true }
 });

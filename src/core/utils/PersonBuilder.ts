@@ -14,7 +14,8 @@ export const PersonBuilder: any = (personInput:any) => {
     postalCode: personInput.postalCode ?? '',
     sex: personInput.sex ?? '',
     avatar: personInput.avatar ?? '',
-    images: personInput.images?? []
+    images: personInput.images?? [],
+    jobs: personInput.jobs ?? []
   }
 }
     
