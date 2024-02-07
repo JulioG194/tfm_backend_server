@@ -25,7 +25,7 @@ route.post('/files', upload.single('file'), async (req: Request , res:Response )
         res.status(200).json(new HttpResponse('Archivo subido con éxito', HttpStatusCode.OK, { fileURL }));
     } catch (error) {
         console.error('Error al subir a S3:', error);
-        res.status(500).json(new HttpResponse('Error al subir a S3:', HttpStatusCode.INTERNAL_SERVER, null));
+        res.status(500).json(new HttpResponse(`Error al subir a S3:${error}`, HttpStatusCode.INTERNAL_SERVER, null));
     } finally {
         fs.unlinkSync(file!.path);
     }
